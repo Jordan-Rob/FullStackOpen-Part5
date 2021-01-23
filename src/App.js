@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './App.css'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +13,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [notification, setNotification] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -41,8 +44,15 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setNotification('Logged in successfully')
+      setTimeout( () => {
+        setNotification(null)
+      }, 5000)
     } catch (error) {
-      console.log(error)
+      setNotification('Error: wrong credentials entered')
+      setTimeout( () => {
+        setNotification(null)
+      }, 5000)
     }
   }
 
@@ -76,6 +86,10 @@ const App = () => {
   const logout = () => {
     window.localStorage.clear()
     setUser(null)
+    setNotification('logged out successfully')
+    setTimeout( () => {
+      setNotification(null)
+    }, 5000)
   }
 
   const addBlog = async(event) => {
@@ -87,11 +101,22 @@ const App = () => {
       user: user.username
     }
 
-    const createdblog = await blogService.postBlog(newblog)
-    setBlogs(blogs.concat(createdblog))
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    try {
+      const createdblog = await blogService.postBlog(newblog)
+      setBlogs(blogs.concat(createdblog))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setNotification('new blog created successfully')
+      setTimeout( () => {
+        setNotification(null)
+      }, 5000)
+    } catch (error) {
+      setNotification(`Error: creating blog make sure fields are filled appropriately`)
+      setTimeout( () => {
+        setNotification(null)
+      }, 5000)
+    }
   }
 
   const blogForm = () => (
@@ -126,6 +151,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={notification} />
       { 
         user === null? 
         loginForm():
