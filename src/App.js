@@ -14,6 +14,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [notification, setNotification] = useState('')
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -119,35 +120,49 @@ const App = () => {
     }
   }
 
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
+  const blogForm = () => {
+    const hideWhenFormVisible = { display: visible? 'none':'' }
+    const showWhenFormVisible = { display: visible? '':'none'}
+
+    return (
       <div>
-        title:
-        <input
-         type = "text"
-         value = {title}
-         onChange = { ({ target }) => setTitle(target.value) }
-        />
-      </div>
-      <div>
-        author:
-        <input
-         type = "text"
-         value = {author}
-         onChange = { ({ target }) => setAuthor(target.value) }
-        />
-      </div>
-      <div>
-        url:
-        <input
-         type = "text"
-         value = {url}
-         onChange = { ({ target }) => setUrl(target.value) }
-        />
-      </div>
-      <button type = 'submit' >Add Blog</button>
-    </form>
-  )
+        <div style={hideWhenFormVisible}>
+          <button onClick={ ()=> setVisible(true)} >New Blog</button>
+        </div>
+        <div style={showWhenFormVisible}>
+          <form onSubmit={addBlog}>
+            <h2>Create New</h2>
+            <div>
+              title:
+              <input
+              type = "text"
+              value = {title}
+              onChange = { ({ target }) => setTitle(target.value) }
+              />
+            </div>
+            <div>
+              author:
+              <input
+              type = "text"
+              value = {author}
+              onChange = { ({ target }) => setAuthor(target.value) }
+              />
+            </div>
+            <div>
+              url:
+              <input
+              type = "text"
+              value = {url}
+              onChange = { ({ target }) => setUrl(target.value) }
+              />
+            </div>
+            <button type = 'submit' >Add Blog</button>
+          </form>
+          <button onClick={() => setVisible(false)} >Cancel</button>
+        </div>
+      </div>  
+    )
+  }
 
   return (
     <div>
@@ -157,8 +172,8 @@ const App = () => {
         loginForm():
         <div>
           <h2>blogs</h2> 
-          <p>{user.name} is logged in</p>
-          <button type = "button" onClick = {logout} >logout</button>
+          <p>{user.name} is logged in <button type = "button" onClick = {logout} >logout</button></p>
+          
           {blogForm()}
           { blogs.map(blog => <Blog key={blog.id} blog={blog} />) } 
         </div> 
