@@ -108,6 +108,31 @@ const App = () => {
     }
   }
 
+  const addLike = async (id) => {
+    const blog = blogs.find( note => note.id === id )
+    const changedBlog = { 
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        likes: blog.likes + 1,
+        user:blog.user
+     }
+
+    try {
+      const likedBlog =  await blogService.editBlog(id, changedBlog)
+      setBlogs(blogs.map( b => b.id !== id? b:likedBlog.data))
+      setNotification('blog liked')
+      setTimeout( () => {
+        setNotification(null)
+      }, 5000)
+    } catch(error){
+      setNotification(`Error`)
+      setTimeout( () => {
+        setNotification(null)
+      }, 5000)
+    }
+  }
+
   const blogForm = () => {
     return (
       <BlogForm createBlog={addBlog} user={user}/>
@@ -125,7 +150,7 @@ const App = () => {
           <p>{user.name} is logged in <button type = "button" onClick = {logout} >logout</button></p>
           
           {blogForm()}
-          { blogs.map(blog => <Blog key={blog.id} blog={blog} />) } 
+          { blogs.map(blog => <Blog key={blog.id} blog={blog} addLike={() => addLike(blog.id)} />) } 
         </div> 
         
       }
