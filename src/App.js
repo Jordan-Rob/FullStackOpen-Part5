@@ -109,7 +109,7 @@ const App = () => {
   }
 
   const addLike = async (id) => {
-    const blog = blogs.find( note => note.id === id )
+    const blog = blogs.find( b => b.id === id )
     const changedBlog = { 
         title: blog.title,
         author: blog.author,
