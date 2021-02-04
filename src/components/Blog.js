@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-const Blog = ({ blog, addLike }) => {
+const Blog = ({ blog, addLike, delBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible? 'none':''}
@@ -11,6 +11,11 @@ const Blog = ({ blog, addLike }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  const delStyle = {
+    color: 'white',
+    backgroundColor: 'blue'
   }
 
   if(visible === false){
@@ -29,6 +34,7 @@ const Blog = ({ blog, addLike }) => {
           {blog.url}<br/>
           likes {blog.likes} <button onClick={addLike}>like</button><br/>
           {blog.user}
+          <button style={ delStyle } onClick={delBlog}>remove</button>
         </div>
       </div>
     )

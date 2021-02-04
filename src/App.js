@@ -133,6 +133,25 @@ const App = () => {
     }
   }
 
+  const delBlog =  async(id) => {
+    const blog = blogs.find( b => b.id === id)
+    if (window.confirm(`Are you sure you want to remove ${blog.title}?`)){
+      try{
+        const deletedBlog = await blogService.deleteBlog(blog.id)
+        setBlogs(blogs.map( b => b.id !== id))
+        setNotification(` ${blog.title} has been removed`)
+        setTimeout( () => {
+          setNotification(null)
+        }, 4000)
+      } catch(error) {
+        setNotification(`Error`)
+        setTimeout( () => {
+          setNotification(null)
+        }, 5000)
+      }
+    }
+  }
+
   const blogForm = () => {
     return (
       <BlogForm createBlog={addBlog} user={user}/>
@@ -150,7 +169,7 @@ const App = () => {
           <p>{user.name} is logged in <button type = "button" onClick = {logout} >logout</button></p>
           
           {blogForm()}
-          { blogs.sort((a, b) => b.likes - a.likes).map(blog => <Blog key={blog.id} blog={blog} addLike={() => addLike(blog.id)} />) } 
+          { blogs.sort((a, b) => b.likes - a.likes).map(blog => <Blog key={blog.id} blog={blog} addLike={() => addLike(blog.id)} delBlog={() => delBlog(blog.id)} />) } 
         </div> 
         
       }
