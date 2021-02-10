@@ -25,3 +25,27 @@ test('by default blog only renders blog title and author', () => {
     
 
 })
+
+test('on expanding blog likes and url are shown ', () => {
+    const blog = {
+        title: 'testin in react',
+        author: 'Jay',
+        url: 'salien.io',
+        likes: 12
+    }
+
+    const del = jest.fn()
+    const addlike = jest.fn()
+
+    const component = render(
+        <Blog blog={blog} addLike={del} delBlog={addlike} />
+    )
+    const button = component.getByText('view')
+    fireEvent.click(button)
+
+    const element = component.container.querySelector('.onToggle')
+
+    expect(element).toHaveTextContent('salien.io')
+    expect(element).toHaveTextContent(12)
+
+})
