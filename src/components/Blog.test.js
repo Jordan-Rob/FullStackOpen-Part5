@@ -15,7 +15,7 @@ test('by default blog only renders blog title and author', () => {
     const addlike = jest.fn()
 
     const component = render(
-        <Blog blog={blog} addLike={del} delBlog={addlike} />
+        <Blog blog={blog} addLike={addlike} delBlog={del} />
     )
     const element = component.container.querySelector('.default')
     expect(element).toHaveTextContent('testin in react')
@@ -38,7 +38,7 @@ test('on expanding blog likes and url are shown ', () => {
     const addlike = jest.fn()
 
     const component = render(
-        <Blog blog={blog} addLike={del} delBlog={addlike} />
+        <Blog blog={blog} addLike={addlike} delBlog={del} />
     )
     const button = component.getByText('view')
     fireEvent.click(button)
@@ -47,5 +47,30 @@ test('on expanding blog likes and url are shown ', () => {
 
     expect(element).toHaveTextContent('salien.io')
     expect(element).toHaveTextContent(12)
+
+})
+
+test('if like button is clicked twice eventhandler is called twice', () => {
+    const blog = {
+        title: 'testin in react',
+        author: 'Jay',
+        url: 'salien.io',
+        likes: 12
+    }
+
+    const del = jest.fn()
+    const addlike = jest.fn()
+
+    const component = render(
+        <Blog blog={blog} addLike={addlike} delBlog={del} />
+    )
+    const button = component.getByText('view')
+    fireEvent.click(button)
+
+    const button2 = component.getByText('like')
+    fireEvent.click(button2)
+    fireEvent.click(button2)
+
+    expect(addlike.mock.calls).toHaveLength(2)
 
 })
