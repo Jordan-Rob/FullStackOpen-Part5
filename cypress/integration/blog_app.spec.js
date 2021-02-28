@@ -53,5 +53,17 @@ describe('Blog app', function() {
           cy.contains('E2E testing in MERN cris')
           cy.contains('view')
         })
+
+        it('A blog can be liked', function() {
+            cy.get('#new-blog').click()
+            cy.get('#title').type('E2E testing in MERN')
+            cy.get('#author').type('cris')
+            cy.get('#url').type('www.dev.io')
+            cy.get('#add-blog').click()
+            
+            cy.get('#view').click()
+            cy.get('#like').click()
+            cy.contains('likes 1')
+          })
       })
   })
