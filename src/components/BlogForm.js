@@ -25,7 +25,7 @@ const BlogForm = ({createBlog, user}) => {
     return (
       <div>
         <div style={hideWhenFormVisible}>
-          <button onClick={ ()=> setVisible(true)} >New Blog</button>
+          <button id="new-blog" onClick={ ()=> setVisible(true)} >New Blog</button>
         </div>
         <div style={showWhenFormVisible}>
           <form onSubmit={addBlog}>
@@ -57,7 +57,7 @@ const BlogForm = ({createBlog, user}) => {
               onChange = { ({ target }) => setUrl(target.value) }
               />
             </div>
-            <button type = 'submit' >Add Blog</button>
+            <button id="add-blog" type = 'submit' >Add Blog</button>
           </form>
           <button onClick={() => setVisible(false)} >Cancel</button>
         </div>

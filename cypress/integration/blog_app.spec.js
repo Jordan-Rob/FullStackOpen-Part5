@@ -35,4 +35,23 @@ describe('Blog app', function() {
         })
 
     })
+
+    describe.only('When logged in', function() {
+        beforeEach(function() {
+          cy.get('#username').type('jod3s')
+          cy.get('#password').type('jona2021')
+          cy.get('#login-button').click()
+        })
+    
+        it('A blog can be created', function() {
+          cy.get('#new-blog').click()
+          cy.get('#title').type('E2E testing in MERN')
+          cy.get('#author').type('cris')
+          cy.get('#url').type('www.dev.io')
+          cy.get('#add-blog').click()
+          
+          cy.contains('E2E testing in MERN cris')
+          cy.contains('view')
+        })
+      })
   })
