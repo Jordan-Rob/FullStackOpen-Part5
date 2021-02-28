@@ -22,7 +22,7 @@ const Blog = ({ blog, addLike, delBlog }) => {
 
   if(visible === false){
   return(
-    <div style={blogStyle} className='default'>
+    <div id="short" style={blogStyle} className='default'>
       <div style={ hideWhenVisible }>
         {blog.title} {blog.author} <button id="view" onClick={() => setVisible(true)}>view</button>
       </div>
@@ -30,7 +30,7 @@ const Blog = ({ blog, addLike, delBlog }) => {
   )}
   else if(visible === true){
     return (
-      <div style={blogStyle} className='onToggle'>
+      <div id="long" style={blogStyle} className='onToggle'>
         <div style={ showWhenVisible }>
           {blog.title} {blog.author} <button onClick={() => setVisible(false)}>hide</button><br/>
           {blog.url}<br/>

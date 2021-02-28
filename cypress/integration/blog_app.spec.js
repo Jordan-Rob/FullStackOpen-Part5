@@ -66,17 +66,38 @@ describe('Blog app', function() {
             cy.contains('likes 1')
           })
         
-          it('A blog can be deleted', function() {
-            cy.get('#new-blog').click()
-            cy.get('#title').type('E2E testing in MERN')
-            cy.get('#author').type('cris')
-            cy.get('#url').type('www.dev.io')
-            cy.get('#add-blog').click()
+        it('A blog can be deleted', function() {
+          cy.get('#new-blog').click()
+          cy.get('#title').type('E2E testing in MERN')
+          cy.get('#author').type('cris')
+          cy.get('#url').type('www.dev.io')
+          cy.get('#add-blog').click()
             
-            cy.get('#view').click()
-            cy.get('#remove').click()
+          cy.get('#view').click()
+          cy.get('#remove').click()
             
-            cy.contains('has been removed')
-          })
+          cy.contains('has been removed')
+        })
+
+        it('A blogs are ordered according to likes', function() {
+          cy.get('#new-blog').click()
+          cy.get('#title').type('1st blog')
+          cy.get('#author').type('cris')
+          cy.get('#url').type('www.dev.io')
+          cy.get('#add-blog').click()
+          
+            
+          cy.get('#title').type('2nd blog')
+          cy.get('#author').type('cris')
+          cy.get('#url').type('www.dev.io')
+          cy.get('#add-blog').click()
+            
+          cy.get('#title').type('3rd Blog')
+          cy.get('#author').type('cris')
+          cy.get('#url').type('www.dev.io')
+          cy.get('#add-blog').click()
+            
+          cy.get('#short:first').
+        })
       })
   })
